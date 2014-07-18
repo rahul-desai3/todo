@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>todo</title>
+        <link href='css/custom.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div id="container">
+            <div id="bar">
+                <h4>Tasks</h4>
+                <span id="actions">
+                    <input type="image" id="undo" src="images/undo_disabled.png" alt="undo" title="undo" disabled />
+                    <input type="image" id="redo" src="images/redo_disabled.png" alt="redo" title="redo" disabled />
+                </span>
+            </div>
+            <div id="todo_list_container">
+                <p id="info"></p>
+                <ul id="todo_items">
+                </ul>
+                <span id="add_todo">
+                    <span id="add_button_container"><button id="add" disabled><span id="small">+</span><br/><span id="smaller">ADD</span></button></span>
+                    <span id="new_item_textarea_container"><textarea id="new_todo_item" placeholder="Create new task" spellcheck="true"></textarea></span>
+                    <span id="star_container"><input type="checkbox" id="star" /></span>
+                </span>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.elastic.js"></script>
+        <script type="text/javascript" src="js/jquery.nicescroll.min.js"></script>
+        <script type="text/javascript" src="js/custom.js"></script>
+    </body>
+</html>
