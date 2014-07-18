@@ -20,6 +20,16 @@ Version
 
 1.0
 
+Coming soon...
+----
+    
+  - Drag/drop tasks for sorting.
+  - 100% responsiveness to support the smallest screen.
+  - Responsiveness for the images.
+  - Usage of CSS sprites for faster image load.
+  - Usage of 'contenteditable' for straight forward UX.
+
+
 Technologies
 ----
 * Javascript
