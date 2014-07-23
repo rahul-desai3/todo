@@ -280,16 +280,16 @@ $(function(){
         $("#star").next().attr("alt", "not important");
         $("#star").next().attr("title", "not important");
         
-        // scroll the window to the input textarea
-        $("#todo_list_container").animate({ scrollTop: $('#todo_list_container')[0].scrollHeight }, 1000);
-        
-        // set focus on textbox again
-        $("#new_todo_item").focus();
-        
         // resize the scrollbar to fit the complete list height
         $("#todo_list_container").getNiceScroll().resize();
         
         if(addToUndoStack){
+            // scroll the window to the input textarea
+            $("#todo_list_container").animate({ scrollTop: $('#todo_list_container')[0].scrollHeight }, 1000);
+            
+            // set focus on textbox again
+            $("#new_todo_item").focus();
+
             // add to undo stack
             var todo_item_content = [];            // todo item for undo
             todo_item_content["task"] = "add";
