@@ -139,6 +139,7 @@ textarea{
     cursor: hand; 
     cursor: pointer;
     display: inline-block;
+    vertical-align: top;
 }
 
 .done:hover{
