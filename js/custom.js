@@ -241,19 +241,13 @@ $(function(){
         
         // update UI with new todo item
         var checked = "";
-        if(star){ 
-            checked = "checked";
-            var star_image = "<img src='"+todo_item.STAR_IMAGE_URL+"' alt='important' title='important' />";
-        } else {
-            var star_image = "<img src='"+todo_item.UNSTAR_IMAGE_URL+"' alt='not important' title='not important' />";
-        }
-                
+        if(star) checked = "checked";
+                        
         // compose content for new item
         var new_item_content = $("<li>"+
-                                 "<button class='done'>"+new_button_number+"</button>"+
-                                 "<p class='item_content'>"+content+"</p>"+
-                                 "<input type='checkbox' class='star' "+checked+" style='display: none;'/>"+ 
-                                 star_image+
+                                     "<button class='done'>"+new_button_number+"</button>"+
+                                     "<p class='item_content'>"+content+"</p>"+
+                                     "<input type='checkbox' class='star' "+checked+" style='display: none;'/>"+ 
                                  "</li>").append("<hr/>");
         
         // add/append
@@ -302,6 +296,35 @@ $(function(){
             // enable undo button if disabled
             if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
         }
+
+        // manage star clicks for the recently added star
+        $(".star:last").each(function() {
+            $(this).hide();
+            
+            if($(this).is(':checked'))
+                var $star_image = $("<img src='"+todo_item.STAR_IMAGE_URL+"' alt='important' title='important' />").insertAfter(this);    
+            else
+                var $star_image = $("<img src='"+todo_item.UNSTAR_IMAGE_URL+"' alt='not important' title='not important' />").insertAfter(this); 
+            
+            $star_image.click(function() {
+                var $checkbox = $(this).prev();
+                $checkbox.prop('checked', !$checkbox.prop('checked'));
+                
+                if($checkbox.prop("checked")) {
+                    $star_image.attr("src", todo_item.STAR_IMAGE_URL);
+                    $star_image.attr("alt", "important");
+                    $star_image.attr("title", "important");
+                } else {
+                    $star_image.attr("src", todo_item.UNSTAR_IMAGE_URL);
+                    $star_image.attr("alt", "not important");
+                    $star_image.attr("title", "important");
+                }
+                
+                if($(this).prev().hasClass("star")) todo_item.toggleStar(this, true);
+                
+            });
+            
+        });
     }
     
     /**************************** RENUMBER ITEMS ***********************/
