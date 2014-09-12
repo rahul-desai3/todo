@@ -1,4 +1,4 @@
-$(function(){    
+$(document).ready(function(){    
     
     // declare an object literal
     var todo_item = {
@@ -193,7 +193,7 @@ $(function(){
     /**************************** ADD ITEM ******************************/    
     function addItem(position, content, star, addToUndoStack){
         
-        console.log("In addItem: "+position+content+star);
+        //console.log("In addItem: "+position+content+star);
         
         // fetch current items from localStorage
         var todo_items = getLocalStorageData();
@@ -298,7 +298,12 @@ $(function(){
         }
 
         // manage star clicks for the recently added star
-        $(".star:last").each(function() {
+        $(".star").each(function() {
+
+            if($(this).parent().find(".item_content").text() !== content) return;
+
+            //console.log("text: " + $(this).parent().find(".item_content").text());
+
             $(this).hide();
             
             if($(this).is(':checked'))
@@ -374,7 +379,7 @@ $(function(){
                 todo_item_content["text"] = remove_item_text;
                 todo_item_content["button_number"] = Number(item_index) + 1;
                 todo_item_content["star"] = $(element).parent().find(':checkbox').is(':checked');
-                console.log("In done .. added to addToUndoStack: "+todo_item_content["task"]+todo_item_content["text"]+todo_item_content["button_number"]+todo_item_content["star"]);
+                //console.log("In done .. added to addToUndoStack: "+todo_item_content["task"]+todo_item_content["text"]+todo_item_content["button_number"]+todo_item_content["star"]);
                 
                 // update undo stack
                 todo_item.undoStack.push(todo_item_content);
@@ -522,6 +527,8 @@ $(function(){
             todo_item_content["task"] = "toggleStar";
             todo_item_content["button_number"] = $(element).parent().find('button').text();
             todo_item_content["value"] = $(element).parent().find('.star').prop('checked');
+
+            //console.log("going to undo stack: " + $(element).parent().find('.star').prop('checked'));
             
             // update undo stack
             todo_item.undoStack.push(todo_item_content);
@@ -609,6 +616,8 @@ $(function(){
                 undo_item["button_number"]--;
                 
                 todo_item.addItem(undo_item["button_number"], undo_item["text"], undo_item["star"], false);
+
+                //console.log("in undo done.." + undo_item["star"]);
                 
                 todo_item.renumberItems();
                 

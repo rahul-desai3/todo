@@ -166,6 +166,7 @@ textarea{
     color: #E7F7FF;
     background-color: #7CB8D4;
     margin-left: 1rem;
+    vertical-align: top;
 }
 
 #add:disabled {
