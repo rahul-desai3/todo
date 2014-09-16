@@ -34,6 +34,7 @@ Technologies
 ----
 * Javascript
 * jQuery core library v1.11.1
+* jQuery UI library v1.11.1
 * CSS3
 * HTML5
 
@@ -47,5 +48,5 @@ License
 
 **Free Software, Hell Yeah!**
 
-[Online Demo]:http://jsfiddle.net/rdesai/csTS7/274/show
+[Online Demo]:http://jsfiddle.net/rdesai/csTS7/279/show
 [MIT]:http://opensource.org/licenses/MIT
