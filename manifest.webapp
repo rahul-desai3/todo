@@ -1,0 +1,12 @@
+{
+  "name": "My ToDo List",
+  "launch_path": "/index.html",
+  "version": "1",
+  "developer": {
+    "name": "Rahul Desai",
+    "url": "http://in.linkedin.com/in/rahuldesai1/"
+  },
+  "icons": {
+    "128": "/images/app_icon.png"
+  }
+}
