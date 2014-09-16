@@ -1,5 +1,6 @@
 {
   "name": "My ToDo List",
+  "description": "A simple todo app to boost your productivity!",
   "launch_path": "/index.html",
   "version": "1",
   "developer": {
@@ -7,6 +8,8 @@
     "url": "http://in.linkedin.com/in/rahuldesai1/"
   },
   "icons": {
-    "128": "/images/app_icon.png"
-  }
+    "512": "/images/app_icon_512.png"
+    "128": "/images/app_icon_128.png"
+  },
+  "default_locale": "en"
 }
