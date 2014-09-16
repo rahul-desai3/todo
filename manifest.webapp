@@ -1,6 +1,6 @@
 {
   "name": "My ToDo List",
-  "description": "A simple todo app to boost your productivity!",
+  "description": "A simple todo app to boost your productivity.",
   "launch_path": "/index.html",
   "version": "1",
   "developer": {
