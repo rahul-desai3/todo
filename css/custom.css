@@ -132,6 +132,7 @@ textarea{
     color: #7CB8D4;
     border: 0.1rem solid #7CB8D4;
     background-color: #E7F7FF;
+    background-image: none;
     outline: none;
     line-height: 30%;
     margin-right: 1rem;
