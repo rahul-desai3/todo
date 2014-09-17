@@ -67,6 +67,11 @@ input[type=image]:disabled, #add:disabled {
     margin: 0.5rem 0rem;
 }
 
+.item_content_container{
+    display: inline-block;
+    width: 65%;
+}
+
 .item_content{
     display: inline;
     font-size: 1.7rem;
