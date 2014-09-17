@@ -109,6 +109,7 @@ li img, #add_todo span img{
 }
 
 textarea{
+    color: #4196C2;
     width: 55%;
     min-width: 0px;
     resize: none;
