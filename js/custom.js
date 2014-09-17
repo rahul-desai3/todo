@@ -402,10 +402,8 @@ $(document).ready(function(){
             // replace it with textarea
             $(element).html("<textarea id='new_data' spellcheck='true'></textarea>");
             
-            // set focus and add the copied original item content, pluss make it elastic
-            $(element).find('textarea').focus().val(original_text).elastic();
-
-            //$(element).find('textarea');
+            // set focus and add the copied original item content
+            $(element).find('textarea').focus().val(original_text);
             
             // on textarea focusout, update localStorage with edited data
             $(element).find('textarea').on("focusout", function(){
@@ -490,6 +488,8 @@ $(document).ready(function(){
                               //console.log(todo_item.undoStack);
                 //}                
             });
+            
+            
         }       
     }
     
