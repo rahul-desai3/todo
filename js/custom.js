@@ -160,9 +160,9 @@ $(document).ready(function(){
                 
                 // compose content for new item
                 var new_item_content = $("<li>"+
-                                         "<button class='done'></button>"+
-                                         "<p class='item_content'>"+item_content+"</p>"+
-                                         "<input type='checkbox' class='star' "+checked+" />"+
+                                             "<button class='done'></button>"+
+                                             "<p class='item_content'>"+item_content+"</p>"+
+                                             "<input type='checkbox' class='star' "+checked+" />"+
                                          "</li>").append("<hr/>");
                 
                 // add/append
@@ -394,8 +394,7 @@ $(document).ready(function(){
     
     /**************************** EDIT ITEM ****************************/
     function editItem(element){
-        
-        // if no textarea
+         // if no textarea
         if($(element).find('textarea').length === 0) {
             // copy original item content
             var original_text = $(element).text();
@@ -403,17 +402,21 @@ $(document).ready(function(){
             // replace it with textarea
             $(element).html("<textarea id='new_data' spellcheck='true'></textarea>");
             
-            $('#new_data').elastic();
-            
-            // set focus and add the copied original item content
-            $('#new_data').focus().val(original_text);
+            // set focus and add the copied original item content, pluss make it elastic
+            $(element).find('textarea').focus().val(original_text).elastic();
+
+            //$(element).find('textarea');
             
             // on textarea focusout, update localStorage with edited data
-            $('#new_data').on("focusout", function(){
+            $(element).find('textarea').on("focusout", function(){
+                //console.log('focusing out..');
                 
-                var edited_text = $.trim($("#new_data").val().replace(/(<([^>]+)>)/ig,"")); // trim starting and trailing whitespaces and strip HTML tags   
+                var edited_text = $("#new_data").val();
+                //console.log("out");    
                 
                 // update localStorage and UI only when the new data is different than before and not empty
+                //console.log($("#new_data").val());
+                //console.log($("#new_data").val().length);
                 if( edited_text.length !== 0 && edited_text !== original_text ){
                     
                     // fetch current items from localStorage
@@ -422,6 +425,7 @@ $(document).ready(function(){
                     // check for duplicate item
                     var duplicate = false;
                     $.each(todo_items,function(index,item){
+                        //console.log(item[0]);
                         if(edited_text.toLowerCase() === item[0].toLowerCase()){
                             duplicate = true;
                             
@@ -430,30 +434,27 @@ $(document).ready(function(){
                         }
                     });
                     
+                    
                     // if new item is a duplicate of an existing item, notify and do not add it
                     if(duplicate){
-                         // replace textarea with the original text
-                        $('#new_data').replaceWith(original_text);
-                                               
-                        var list_element = $('.item_content').filter(function() {
-                            return $.trim( $(this).text() ) === edited_text;
-                        }).parent();
-                        
+                        // highlight the original item for 10,000 ms
+                        $( ".item_content:contains('"+edited_text+"')" ).parent().effect("highlight", {}, 10000);
                         
                         // notify the user
-                        $("#todo_list_container").animate({ scrollTop: 0 }, 250);                       
-                   
-                        var info_text = "You already have '"+edited_text+"' in your list!"
-                        $("#info").text(info_text).hide().slideDown(250).delay(2000).slideUp(250);
+                        $("#info").text("You already have '"+edited_text+"' in your list!").fadeOut(10000);
                         
-                        $(list_element).effect("highlight", {}, 4000);
+                        // set focus on textbox again
+                        //$("#new_todo_item").focus();
+                        
+                        // replace textarea with the original text
+                        $(element).find('textarea').replaceWith(original_text);
                         
                         return false;
-                        
                     } else{
                         
                         // add new data to the item
                         $.each(todo_items,function(index,item){
+                            //console.log(item[0]);
                             if(original_text === item[0]){
                                 item[0] = edited_text;
                                 
@@ -464,11 +465,12 @@ $(document).ready(function(){
                     }
                     
                     // update localStorage                
-					todo_item.setLocalStorageData(JSON.stringify(todo_items));
+                    localStorage.setItem('todo_items', JSON.stringify(todo_items));
                     
                     // replace textarea with the new text
                     $(element).find('textarea').replaceWith(edited_text);                   
                     
+                    //if(pushToUndoStack){
                     var todo_item_content = [];
                     todo_item_content["task"] = "edit";
                     todo_item_content["edited_text"] = edited_text;
@@ -477,16 +479,18 @@ $(document).ready(function(){
                     // update undo stack
                     todo_item.undoStack.push(todo_item_content);
                     
-                    if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
-                                        
+                    if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src","http://i.imgur.com/Il5SY6q.png");
+                    
+                    
+                    
                 } else {
                     // replace textarea with the original text
                     $(element).find('textarea').replaceWith(original_text);
                 }
-                
+                              //console.log(todo_item.undoStack);
+                //}                
             });
-            
-        }
+        }       
     }
     
     /**************************** TOGGLE STAR **************************/
