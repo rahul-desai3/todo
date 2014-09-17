@@ -161,7 +161,7 @@ $(document).ready(function(){
                 // compose content for new item
                 var new_item_content = $("<li>"+
                                          "<button class='done'></button>"+
-                                         "<div class='item_content_container'><p class='item_content'  >"+item_content+"</p></div>"+
+                                         "<p class='item_content'>"+item_content+"</p>"+
                                          "<input type='checkbox' class='star' "+checked+" />"+
                                          "</li>").append("<hr/>");
                 
@@ -246,7 +246,7 @@ $(document).ready(function(){
         // compose content for new item
         var new_item_content = $("<li>"+
                                      "<button class='done'>"+new_button_number+"</button>"+
-                                     "<div class='item_content_container'><p class='item_content'>"+content+"</p></div>"+
+                                     "<p class='item_content'>"+content+"</p>"+
                                      "<input type='checkbox' class='star' "+checked+" style='display: none;'/>"+ 
                                  "</li>").append("<hr/>");
         
