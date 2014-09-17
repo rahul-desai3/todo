@@ -95,7 +95,6 @@ input[type=image]:disabled, #add:disabled {
 
 li img, #add_todo span img{
     float: right;
-    margin-top: 0.5rem;
     cursor: hand; 
     cursor: pointer;
 }
