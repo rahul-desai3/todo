@@ -11,5 +11,6 @@
     "512": "/images/app_icon_512.png",
     "128": "/images/app_icon_128.png"
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "fullscreen": true
 }
