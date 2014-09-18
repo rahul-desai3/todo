@@ -67,6 +67,10 @@ $(document).ready(function(){
 		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star").prop('checked'), true);                            
     });
     
+    $(document).on("click", "#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
+        $("#todo_list_container").animate({ scrollTop: $(document).height()+$(document).height() }, 1000);
+    });
+
     $(document).on("click", ".done",         function(){ todo_item.markAsDone($(this).parent(), true);   });
     $(document).on("click", ".item_content", function(){ todo_item.editItem(this);                       });    
     $(document).on("click", "#undo",         function(){ todo_item.undo(todo_item.undoStack);            });    
@@ -101,7 +105,7 @@ $(document).ready(function(){
     /***************** TWEAK MINOR UI STUFF ***************************/
     function tweakUI(){
         // make teaxtarea height auto-increate and set focus
-        $('#new_todo_item').elastic().focus();
+        $('#new_todo_item').elastic();
         
         // enable iphone-like scrollbar for the list
         $("#todo_list_container").niceScroll({cursorcolor: '#4196c2'});
