@@ -72,11 +72,18 @@ $(document).ready(function(){
     $(document).on("click", "#undo",         function(){ todo_item.undo(todo_item.undoStack);            });    
     $(document).on("click", "#redo",         function(){ todo_item.redo(todo_item.redoStack);            });
 	
-	$(document).on("change input propertychange paste", "#new_todo_item", function(){
-        if($.trim($("#new_todo_item").val()).length > 0)        // enable add button only when valid text is entered
-            $("#add").prop('disabled' , false );
-        else
-            $("#add").prop('disabled' , true );
+	$(document).on("change input propertychange paste keyup", "#new_todo_item", function(){
+        // enable add button only when valid text is entered
+        $("#add").prop('disabled' , ! $("#new_todo_item").val().length );
+
+        // capitalize first letter
+        if(this.value.match(/^[a-z]/)){
+            // replace the first letter
+            this.value = this.value.replace(/^./,function(letter){
+                // with the uppercase version
+                return letter.toUpperCase();
+            });
+        }
     });
         
 	var button_number;
