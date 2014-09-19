@@ -126,6 +126,10 @@ textarea{
     background-color: #F9FBFC;
 }
 
+::-moz-placeholder {  /* Firefox 19+ */
+   font-size: 1.2rem;
+}
+
 .done, #add{
     height: 3.2rem;
     width: 3.2rem;
