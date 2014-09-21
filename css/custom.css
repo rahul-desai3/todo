@@ -124,6 +124,7 @@ textarea{
     vertical-align: middle;
     min-width: 0rem;
     background-color: #F9FBFC;
+    background-image: none;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
