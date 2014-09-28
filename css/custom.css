@@ -13,7 +13,7 @@
 body{
     font-family: 'Roboto', sans-serif;
     font-size: 62.5%;        /* so, 10px = 1rem */
-    background-color: #F9FBFC;
+    background-color: white;
     width: 100%;
 }
 
@@ -42,7 +42,7 @@ h4{
     border: 0rem;
 }
 
-#actions button input{
+button, input{
     outline: none;
 }
 
@@ -123,7 +123,7 @@ textarea{
     font-size: 1.7rem; 
     vertical-align: middle;
     min-width: 0rem;
-    background-color: #F9FBFC;
+    background-color: white;
     background-image: none;
 }
 
