@@ -46,6 +46,10 @@ button, input{
     outline: none;
 }
 
+button::-moz-focus-inner{
+    border: 0rem;
+}
+
 #bar{
     background-color: #4196c2;
     margin: 0rem 0rem 1rem;
