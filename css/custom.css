@@ -17,15 +17,45 @@ body{
     width: 100%;
 }
 
+@media (max-width: 1280px) and (min-width: 800px){       /* for Nexus 7 device */
+    html {
+        font-size: 100%;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 854px){       /* for Alcatel Flame device - landscape */
+    html {
+        font-size: 125%;
+    }
+}
+
+@media (max-width: 568px){       /* for iPhone 5 device  and (min-width: 320px)*/
+    html {
+        font-size: 62.5%;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 480px){       /* for Alcatel Flame device - portrait */
+    html {
+        font-size: 125%;
+    }
+}
+
+@media (max-width: 320px){      /* other smaller devices */
+    html {
+        font-size: 62.5%;
+    }
+}
+
 h4{
     text-decoration: none;
     display: inline-block;
-    margin-top: 2rem;        /* = 20px */
+    margin-top: 2rem;
     margin-bottom: 2rem;
     color: #F9FBFC;
     margin-left: 1.5rem;
     font-size: 1.8rem;
-    line-height: 0px;
+    line-height: 0rem;
     font-weight: normal;
 }
 
@@ -76,12 +106,13 @@ input[type=image]:disabled, #add:disabled {
     font-size: 1.7rem;
     color: #4196C2;
     width: 65%;
+    margin-top: 0.3rem;
 }
 
 #todo_list_container{
     overflow-y: auto;
     position: fixed;
-    top: 4rem;
+    top: 5.2rem;
     bottom: 0rem;
     width: 100%;
 }
@@ -92,7 +123,7 @@ input[type=image]:disabled, #add:disabled {
 }
 
 #todo_items li { 
-    border: 0px solid black;
+    /*border: 0px solid black;*/
     margin: 0.5rem; 
     padding: 0.5rem; 
     font-size: 1.2rem; 
@@ -102,6 +133,7 @@ li img, #add_todo span img{
     float: right;
     cursor: hand; 
     cursor: pointer;
+    margin-top: 0.3rem;
 }
 
 #add_todo span img{
@@ -115,7 +147,7 @@ li img, #add_todo span img{
 textarea{
     color: #4196C2;
     width: 55%;
-    min-width: 0px;
+    min-width: 0rem;
     resize: none;
     border: 0rem solid red;
     overflow: auto;
@@ -129,10 +161,12 @@ textarea{
     min-width: 0rem;
     background-color: white;
     background-image: none;
+    margin-top: 0.3rem;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
    font-size: 1.2rem;
+   line-height: 2rem;
 }
 
 .done, #add{
@@ -147,6 +181,7 @@ textarea{
     line-height: 30%;
     margin-right: 1rem;
     font-weight: normal;
+    font-size: 1.3rem;
     cursor: hand; 
     cursor: pointer;
     display: inline-block;
