@@ -14,8 +14,6 @@ $(document).ready(function(){
 		DISABLED_UNDO_IMAGE_URL    : "images/undo_disabled.png",
 		ENABLED_REDO_IMAGE_URL     : "images/redo_enabled.png",
 		DISABLED_REDO_IMAGE_URL    : "images/redo_disabled.png",
-		STAR_IMAGE_URL             : "images/star.png",
-        UNSTAR_IMAGE_URL           : "images/unstar.png",
 		        
         // functions
         addItem: function(position, content, star, addToUndoStack){
@@ -50,31 +48,36 @@ $(document).ready(function(){
         },
         redo: function(redoStack){
             redo(redoStack);
-        },
-        tweakUI: function(){
-            tweakUI();
         }
     };
     
     // setup the UI
     todo_item.checkLocalStorageBrowserSupport();
     todo_item.checkLocalStorageExistingData();
-    todo_item.tweakUI();
     todo_item.renumberItems();
     
+    // add external plugins
+    // make teaxtarea height auto-increate and set focus
+    $('#new_todo_item').elastic();
+    
+    // enable iphone-like scrollbar for the list
+    $("#todo_list_container").niceScroll({cursorcolor: '#4196c2'});  
+
     // setup event listeners
     $(document).on("click", "#add", function(){           // pass position, text with HTML trimmed (to avoid <script> hacks) and star value (boolean)
-		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star").prop('checked'), true);                            
+		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star_container").hasClass('yellow'), true);                            
     });
     
     $(document).on("click", "#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
         $("#todo_list_container").animate({ scrollTop: $(document).height()+$(document).height() }, 1000);
     });
 
-    $(document).on("click", ".done",         function(){ todo_item.markAsDone($(this).parent(), true);   });
-    $(document).on("click", ".item_content", function(){ todo_item.editItem(this);                       });    
-    $(document).on("click", "#undo",         function(){ todo_item.undo(todo_item.undoStack);            });    
-    $(document).on("click", "#redo",         function(){ todo_item.redo(todo_item.redoStack);            });
+    $(document).on("click", ".done",                        function(){ todo_item.markAsDone($(this).parent(), true);   });
+    $(document).on("click", ".item_content",                function(){ todo_item.editItem(this);                       });    
+    $(document).on("click", ".fa-undo",                     function(){ todo_item.undo(todo_item.undoStack);            });    
+    $(document).on("click", ".fa-repeat",                   function(){ todo_item.redo(todo_item.redoStack);            });
+    $(document).on("click", "ul li i.fa-star",              function(){ todo_item.toggleStar(this, true);               });
+    $(document).on("click", "#star_container i.fa-star",    function(){ this.toggleClass('yellow');                     });
 	
 	$(document).on("change input propertychange paste keyup", "#new_todo_item", function(){
         // enable add button only when valid text is entered
@@ -102,45 +105,6 @@ $(document).ready(function(){
 		
     // custom functions start here
     
-    /***************** TWEAK MINOR UI STUFF ***************************/
-    function tweakUI(){
-        // make teaxtarea height auto-increate and set focus
-        $('#new_todo_item').elastic();
-        
-        // enable iphone-like scrollbar for the list
-        $("#todo_list_container").niceScroll({cursorcolor: '#4196c2'});
-        
-        // manage star clicks
-        $(".star, #star").each(function() {
-            $(this).hide();
-            
-            if($(this).is(':checked'))
-                var $star_image = $("<img src='"+todo_item.STAR_IMAGE_URL+"' alt='important' title='important' />").insertAfter(this);    
-            else
-                var $star_image = $("<img src='"+todo_item.UNSTAR_IMAGE_URL+"' alt='not important' title='not important' />").insertAfter(this); 
-            
-            $star_image.click(function() {
-                var $checkbox = $(this).prev();
-                $checkbox.prop('checked', !$checkbox.prop('checked'));
-                
-                if($checkbox.prop("checked")) {
-                    $star_image.attr("src", todo_item.STAR_IMAGE_URL);
-                    $star_image.attr("alt", "important");
-                    $star_image.attr("title", "important");
-                } else {
-                    $star_image.attr("src", todo_item.UNSTAR_IMAGE_URL);
-                    $star_image.attr("alt", "not important");
-                    $star_image.attr("title", "important");
-                }
-                
-                if($(this).prev().hasClass("star")) todo_item.toggleStar(this, true);
-                
-            });
-            
-        });
-        
-    }
-    
     /***************** CHECK LOCAL STORAGE BROWSER SUPPORT ***********/
     function checkLocalStorageBrowserSupport(){
         if(!window.localStorage) {
@@ -166,15 +130,14 @@ $(document).ready(function(){
                 var item_content = item[CONTENT];
                 var star_check = item[STAR];
                 
-                var checked = "";
-                if(star_check) checked = "checked";
+                var star_element = $("<i class='fa fa-star'></i>");
+                if(star_check) star_element = $("<i class='fa fa-star'></i>").addClass("yellow");
                 
                 // compose content for new item
                 var new_item_content = $("<li>"+
                                              "<button class='done'></button>"+
-                                             "<p class='item_content'>"+item_content+"</p>"+
-                                             "<input type='checkbox' class='star' "+checked+" />"+
-                                         "</li>").append("<hr/>");
+                                             "<p class='item_content'>"+item_content+"</p>"+                                             
+                                         "</li>").append(star_element).append("<hr/>");
                 
                 // add/append
                 $("ul").append(new_item_content.hide());
@@ -250,17 +213,16 @@ $(document).ready(function(){
         // find number of bottom numbered button 
         var new_button_number = position + 1;
         
-        // update UI with new todo item
-        var checked = "";
-        if(star) checked = "checked";
-                        
+        // update UI with new todo item                
+        var star_element = $("<i class='fa fa-star'></i>");
+        if(star) star_element = $("<i class='fa fa-star'></i>").addClass("yellow");
+        
         // compose content for new item
         var new_item_content = $("<li>"+
                                      "<button class='done'>"+new_button_number+"</button>"+
-                                     "<p class='item_content'>"+content+"</p>"+
-                                     "<input type='checkbox' class='star' "+checked+" style='display: none;'/>"+ 
-                                 "</li>").append("<hr/>");
-        
+                                     "<p class='item_content'>"+content+"</p>"+                                             
+                                 "</li>").append(star_element).append("<hr/>");
+
         // add/append
         if(position === 0)
             $("ul").prepend(new_item_content.hide());
@@ -280,10 +242,7 @@ $(document).ready(function(){
         $("#add").prop('disabled', true);
         
         // unstar
-        $("#star").prop('checked', false);
-        $("#star").next().attr("src", todo_item.UNSTAR_IMAGE_URL);
-        $("#star").next().attr("alt", "not important");
-        $("#star").next().attr("title", "not important");
+        $('#star_container').css("color", "lightgray");
         
         // resize the scrollbar to fit the complete list height
         $("#todo_list_container").getNiceScroll().resize();
@@ -305,42 +264,8 @@ $(document).ready(function(){
             todo_item.undoStack.push(todo_item_content);
             
             // enable undo button if disabled
-            if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
+            if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
         }
-
-        // manage star clicks for the recently added star
-        $(".star").each(function() {
-
-            if($(this).parent().find(".item_content").text() !== content) return;
-
-            //console.log("text: " + $(this).parent().find(".item_content").text());
-
-            $(this).hide();
-            
-            if($(this).is(':checked'))
-                var $star_image = $("<img src='"+todo_item.STAR_IMAGE_URL+"' alt='important' title='important' />").insertAfter(this);    
-            else
-                var $star_image = $("<img src='"+todo_item.UNSTAR_IMAGE_URL+"' alt='not important' title='not important' />").insertAfter(this); 
-            
-            $star_image.click(function() {
-                var $checkbox = $(this).prev();
-                $checkbox.prop('checked', !$checkbox.prop('checked'));
-                
-                if($checkbox.prop("checked")) {
-                    $star_image.attr("src", todo_item.STAR_IMAGE_URL);
-                    $star_image.attr("alt", "important");
-                    $star_image.attr("title", "important");
-                } else {
-                    $star_image.attr("src", todo_item.UNSTAR_IMAGE_URL);
-                    $star_image.attr("alt", "not important");
-                    $star_image.attr("title", "important");
-                }
-                
-                if($(this).prev().hasClass("star")) todo_item.toggleStar(this, true);
-                
-            });
-            
-        });
     }
     
     /**************************** RENUMBER ITEMS ***********************/
@@ -390,12 +315,12 @@ $(document).ready(function(){
                 todo_item_content["text"] = remove_item_text;
                 todo_item_content["button_number"] = Number(item_index) + 1;
                 todo_item_content["star"] = $(element).parent().find(':checkbox').is(':checked');
-                //console.log("In done .. added to addToUndoStack: "+todo_item_content["task"]+todo_item_content["text"]+todo_item_content["button_number"]+todo_item_content["star"]);
                 
                 // update undo stack
                 todo_item.undoStack.push(todo_item_content);
                 
-                if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
+                // enable undo button if disabled
+                if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
             }
             
         });        
@@ -488,8 +413,8 @@ $(document).ready(function(){
                     // update undo stack
                     todo_item.undoStack.push(todo_item_content);
                     
-                    if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src","http://i.imgur.com/Il5SY6q.png");
-                    
+                    // enable undo button if disabled
+                    if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");                   
                     
                     
                 } else {
@@ -508,26 +433,29 @@ $(document).ready(function(){
     function toggleStar(element, pushToUndoStack){
         // fetch this starred item content to locate it in the localStorage
         
-        if($(element).parent().find(':checkbox').is(':checked')) {
-            $(element).parent().find('img').attr("src", todo_item.STAR_IMAGE_URL);
-            $(element).parent().find('img').attr("alt", "important");
-            $(element).parent().find('img').attr("title", "important");
+        $(element).toggleClass("yellow");
+
+/*        console.log($(element).css("color"));
+
+
+        if($(element).css("color") === "rgb(255,255,0)") {
+            $(element).css("color", "lightgray");
         } else {
-            $(element).parent().find('img').attr("src", todo_item.UNSTAR_IMAGE_URL);
-            $(element).parent().find('img').attr("alt", "not important");
-            $(element).parent().find('img').attr("title", "not important");
+            $(element).css("color", "yellow");
         }
-        
+  */      
         var starred_item = $(element).parent().find('p').text();
         
         // fetch current items from localStorage
         var todo_items = getLocalStorageData();
         
         // parse to locate 'that' item
+        var new_star_value;
         $.each(todo_items,function(index,item){
             if(starred_item.toLowerCase() === item[0].toLowerCase()){
                 // toggle starred true/false
                 item[1] = !item[1];
+                new_star_value = item[1];
                 // cut the loop
                 return false;
             }
@@ -541,14 +469,13 @@ $(document).ready(function(){
             var todo_item_content = [];
             todo_item_content["task"] = "toggleStar";
             todo_item_content["button_number"] = $(element).parent().find('button').text();
-            todo_item_content["value"] = $(element).parent().find('.star').prop('checked');
-
-            //console.log("going to undo stack: " + $(element).parent().find('.star').prop('checked'));
+            todo_item_content["value"] = new_star_value;
             
             // update undo stack
             todo_item.undoStack.push(todo_item_content);
             
-            if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
+            // enable undo button if disabled
+            if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
             
         }
     }
@@ -556,6 +483,9 @@ $(document).ready(function(){
     /**************************** UNDO *********************************/
     function undo(undoStack){
         
+        // undo only if there is something in the stack!
+        if(undoStack.length === 0) return false;
+
         // get the undo task
         var undo_item = undoStack.pop();
         
@@ -571,12 +501,9 @@ $(document).ready(function(){
         switch(undo_item["task"]){
                 
             case "toggleStar":
-                
-                // update UI
-                $("ul li:nth-child("+undo_item["button_number"]+")").find('.star').prop('checked', !undo_item["value"]);
-                
-                // toggle star
-                todo_item.toggleStar($("ul li:nth-child("+undo_item["button_number"]+")").find('.star'), false);
+
+                // call toggle star
+                todo_item.toggleStar($("ul li:nth-child("+undo_item["button_number"]+")").find('.fa-star'), false);
                 
                 // push to redoStack
                 undo_item["value"] = !undo_item["value"];
@@ -631,8 +558,6 @@ $(document).ready(function(){
                 undo_item["button_number"]--;
                 
                 todo_item.addItem(undo_item["button_number"], undo_item["text"], undo_item["star"], false);
-
-                //console.log("in undo done.." + undo_item["star"]);
                 
                 todo_item.renumberItems();
                 
@@ -646,10 +571,10 @@ $(document).ready(function(){
         todo_item.redoStack.push(undo_item);
         
         // enable redo button
-        if($("#redo").is(":disabled")) $("#redo").removeAttr('disabled').prop("src", todo_item.ENABLED_REDO_IMAGE_URL);
+        if($(".fa-repeat").hasClass("white") === false) $(".fa-repeat").addClass("white");
             
         // disable undo button if stack is empty
-        if(undoStack.length === 0) $("#undo").attr('disabled','disabled').prop("src", todo_item.DISABLED_UNDO_IMAGE_URL);
+        if($(".fa-undo").hasClass("white")) $(".fa-undo").removeClass("white");
                         
         
     }
@@ -657,17 +582,17 @@ $(document).ready(function(){
     /**************************** REDO *********************************/
     function redo(redoStack){
         
+        // redo only if there is something in the stack!
+        if(redoStack.length === 0) return false;
+
         // get the redo task
         var redo_item = redoStack.pop();
         
         switch(redo_item["task"]){
             case "toggleStar": 
                 
-                // update UI
-                $("ul li:nth-child("+redo_item["button_number"]+")").find('.star').prop('checked', !redo_item["value"]);
-                
-                // toggle star
-                todo_item.toggleStar($("ul li:nth-child("+redo_item["button_number"]+")").find('.star'), false);
+                // call toggle star
+                todo_item.toggleStar($("ul li:nth-child("+redo_item["button_number"]+")").find('.fa-star'), false);
                 
                 // push to undoStack
                 redo_item["value"] = !redo_item["value"];
@@ -727,10 +652,10 @@ $(document).ready(function(){
         todo_item.undoStack.push(redo_item);
         
         // enable undo button
-        if($("#undo").is(":disabled")) $("#undo").removeAttr('disabled').prop("src", todo_item.ENABLED_UNDO_IMAGE_URL);
+        if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
         
         // disable redo button if no tasks in the stack
-        if(redoStack.length === 0) $("#redo").attr('disabled','disabled').prop("src", todo_item.DISABLED_REDO_IMAGE_URL);
+        if($(".fa-repeat").hasClass("white")) $(".fa-repeat").removeClass("white");
         
     }
     

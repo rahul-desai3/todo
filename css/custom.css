@@ -72,8 +72,38 @@ h4{
     border: 0rem;
 }
 
+.fa-undo, .fa-repeat{
+    color: #7AB6D4;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    line-height: 0;
+}
+
+.fa-undo{
+    margin-right: 1rem;
+}
+
+.white{
+    color: white;
+}
+
 button, input{
     outline: none;
+}
+
+.fa-star{
+    font-size: 1.7rem;
+    float: right;
+    color: lightgray;
+    margin-top: 0.6rem;
+}
+
+.yellow{
+    color: #FFC38E;
+}
+
+#star_container .fa-star{
+    margin-right: 1rem;
 }
 
 button::-moz-focus-inner{
@@ -112,7 +142,7 @@ input[type=image]:disabled, #add:disabled {
 #todo_list_container{
     overflow-y: auto;
     position: fixed;
-    top: 5.2rem;
+    top: 4rem;
     bottom: 0rem;
     width: 100%;
 }
@@ -128,6 +158,15 @@ input[type=image]:disabled, #add:disabled {
     padding: 0.5rem; 
     font-size: 1.2rem; 
 }
+
+/*#todo_items li:after{
+    content: "";
+    position: absolute;
+    right: 0rem;
+    height: 1px;
+    width: 50%;
+    border-bottom: 1px solid black;    
+}*/
 
 li img, #add_todo span img{
     float: right;
