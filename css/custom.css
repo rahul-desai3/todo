@@ -67,9 +67,8 @@ h4{
     padding: 1rem 0rem 0rem 0rem;
 }
 
-#actions button{
-    background: none;
-    border: 0rem;
+.fa{
+    cursor: pointer; 
 }
 
 .fa-undo, .fa-repeat{
