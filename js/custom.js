@@ -64,7 +64,8 @@ $(document).ready(function(){
     $("#todo_list_container").niceScroll({cursorcolor: '#4196c2'});  
 
     // setup event listeners
-    $(document).on("click", "#add", function(){           // pass position, text with HTML trimmed (to avoid <script> hacks) and star value (boolean)
+    $(document).on("click", "#add", function(e){           // pass position, text with HTML trimmed (to avoid <script> hacks) and star value (boolean)
+        $('#new_todo_item').focus();
 		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star_container").hasClass('yellow'), true);                            
     });
     
@@ -167,8 +168,6 @@ $(document).ready(function(){
     /**************************** ADD ITEM ******************************/    
     function addItem(position, content, star, addToUndoStack){
         
-        //console.log("In addItem: "+position+content+star);
-        
         // fetch current items from localStorage
         var todo_items = getLocalStorageData();
         
@@ -250,9 +249,6 @@ $(document).ready(function(){
         if(addToUndoStack){
             // scroll the window to the input textarea
             $("#todo_list_container").animate({ scrollTop: $('#todo_list_container')[0].scrollHeight }, 1000);
-            
-            // set focus on textbox again
-            $("#new_todo_item").focus();
 
             // add to undo stack
             var todo_item_content = [];            // todo item for undo
