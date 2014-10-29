@@ -233,6 +233,7 @@ textarea{
 
 #add_todo{
     width: 100%;
+    padding-bottom: 3rem;
 }
 
 #add_button_container{
@@ -252,20 +253,11 @@ textarea{
     background-color: #7CB8D4;
     margin-left: 1rem;
     vertical-align: top;
+    font-size: 2rem;
 }
 
 #add:disabled {
     opacity: 0.5;
-}
-
-#small{
-    font-size: 1.2rem;
-    line-height: 110%;
-}
-
-#smaller{
-    font-size: 0.7rem;
-    line-height: 120%;
 }
 
 .ui-state-highlight { 
