@@ -66,7 +66,7 @@ $(document).ready(function(){
     // setup event listeners
     $(document).on("click", "#add", function(e){           // pass position, text with HTML trimmed (to avoid <script> hacks) and star value (boolean)
         $('#new_todo_item').focus();
-		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star_container").hasClass('yellow'), true);                            
+		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star_container i.fa-star").hasClass('yellow'), true);                            
     });
     
     $(document).on("click", "#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
@@ -78,7 +78,7 @@ $(document).ready(function(){
     $(document).on("click", ".fa-undo",                     function(){ todo_item.undo(todo_item.undoStack);            });    
     $(document).on("click", ".fa-repeat",                   function(){ todo_item.redo(todo_item.redoStack);            });
     $(document).on("click", "ul li i.fa-star",              function(){ todo_item.toggleStar(this, true);               });
-    $(document).on("click", "#star_container i.fa-star",    function(){ this.toggleClass('yellow');                     });
+    $(document).on("click", "#star_container i.fa-star",    function(){ $(this).toggleClass('yellow');                     });
 	
 	$(document).on("change input propertychange paste keyup", "#new_todo_item", function(){
         // enable add button only when valid text is entered
@@ -232,7 +232,7 @@ $(document).ready(function(){
         $("#add").prop('disabled', true);
         
         // unstar
-        $('#star_container').css("color", "lightgray");
+        $('#star_container i.fa-star').removeClass('yellow');
         
         // resize the scrollbar to fit the complete list height
         $("#todo_list_container").getNiceScroll().resize();
