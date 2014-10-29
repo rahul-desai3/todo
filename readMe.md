@@ -1,7 +1,7 @@
 ToDo
 ================
 
-A simple todo application for boosting productivity. This application includes following features:
+A simple todo application to boost your productivity, built for Firefox OS v1.3 and 2.0. This application has following features:
 
   - Adding a task
   - Editing a task
@@ -18,7 +18,7 @@ A simple todo application for boosting productivity. This application includes f
 Version
 ----
 
-1.0
+1.2
 
 Coming soon...
 ----
