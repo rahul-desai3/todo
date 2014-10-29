@@ -198,6 +198,7 @@ textarea{
     background-color: white;
     background-image: none;
     margin-top: 0.4rem;
+    border: none;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
