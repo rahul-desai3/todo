@@ -187,8 +187,6 @@ textarea{
     width: 55%;
     min-width: 0rem;
     resize: none;
-    border: 0rem solid red;
-    overflow: auto;
     outline: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -199,7 +197,7 @@ textarea{
     min-width: 0rem;
     background-color: white;
     background-image: none;
-    margin-top: 0.3rem;
+    margin-top: 0.4rem;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
