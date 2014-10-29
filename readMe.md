@@ -45,8 +45,5 @@ License
 
 [MIT] (Open source)
 
-
-**Free Software, Hell Yeah!**
-
 [Online Demo]:http://jsfiddle.net/rdesai/csTS7/292/show
 [MIT]:http://opensource.org/licenses/MIT
