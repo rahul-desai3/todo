@@ -74,7 +74,7 @@ $(document).ready(function(){
     });
 
     $(document).on("click", "button.done", function(){ todo_item.markAsDone($(this).parent(), true);   });
-    
+
     var button_number;
     $(document).on("mouseenter", "button.done", function(){         // on numbered button hover, change button label to "mark as Done"
         button_number = $(this).text();    // copy button number
@@ -253,6 +253,7 @@ $(document).ready(function(){
             // enable undo button if disabled
             if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
         }
+
     }
     
     /**************************** RENUMBER ITEMS ***********************/
@@ -330,14 +331,10 @@ $(document).ready(function(){
             
             // on textarea focusout, update localStorage with edited data
             $(element).find('textarea').on("focusout", function(){
-                //console.log('focusing out..');
                 
                 var edited_text = $("textarea#new_data").val();
-                //console.log("out");    
                 
                 // update localStorage and UI only when the new data is different than before and not empty
-                //console.log($("#new_data").val());
-                //console.log($("#new_data").val().length);
                 if( edited_text.length !== 0 && edited_text !== original_text ){
                     
                     // fetch current items from localStorage
@@ -346,7 +343,6 @@ $(document).ready(function(){
                     // check for duplicate item
                     var duplicate = false;
                     $.each(todo_items,function(index,item){
-                        //console.log(item[0]);
                         if(edited_text.toLowerCase() === item[0].toLowerCase()){
                             duplicate = true;
                             
@@ -375,7 +371,6 @@ $(document).ready(function(){
                         
                         // add new data to the item
                         $.each(todo_items,function(index,item){
-                            //console.log(item[0]);
                             if(original_text === item[0]){
                                 item[0] = edited_text;
                                 
@@ -391,7 +386,7 @@ $(document).ready(function(){
                     // replace textarea with the new text
                     $(element).find('textarea').replaceWith(edited_text);                   
                     
-                    //if(pushToUndoStack){
+                    // pushToUndoStack
                     var todo_item_content = [];
                     todo_item_content["task"] = "edit";
                     todo_item_content["edited_text"] = edited_text;
@@ -408,8 +403,6 @@ $(document).ready(function(){
                     // replace textarea with the original text
                     $(element).find('textarea').replaceWith(original_text);
                 }
-                              //console.log(todo_item.undoStack);
-                //}                
             });
             
             
@@ -418,19 +411,10 @@ $(document).ready(function(){
     
     /**************************** TOGGLE STAR **************************/
     function toggleStar(element, pushToUndoStack){
-        // fetch this starred item content to locate it in the localStorage
         
         $(element).toggleClass("yellow");
 
-/*        console.log($(element).css("color"));
-
-
-        if($(element).css("color") === "rgb(255,255,0)") {
-            $(element).css("color", "lightgray");
-        } else {
-            $(element).css("color", "yellow");
-        }
-  */      
+        // fetch this starred item content to locate it in the localStorage
         var starred_item = $(element).parent().find('p').text();
         
         // fetch current items from localStorage
@@ -561,7 +545,7 @@ $(document).ready(function(){
         if($("i.fa-repeat").hasClass("white") === false) $("i.fa-repeat").addClass("white");
             
         // disable undo button if stack is empty
-        if($("i.fa-undo").hasClass("white")) $("i.fa-undo").removeClass("white");
+        if($("i.fa-undo").hasClass("white") && undoStack.length === 0) $("i.fa-undo").removeClass("white");
                         
         
     }
@@ -642,9 +626,8 @@ $(document).ready(function(){
         if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
         
         // disable redo button if no tasks in the stack
-        if($("i.fa-repeat").hasClass("white")) $("i.fa-repeat").removeClass("white");
+        if($("i.fa-repeat").hasClass("white") && redoStack.length === 0) $("i.fa-repeat").removeClass("white");
         
     }
-    
-    
+        
 });
