@@ -70,7 +70,9 @@ $(document).ready(function(){
     });
     
     $(document).on("click", "textarea#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
-        $("div#todo_list_container").animate({ scrollTop: $(document).height()+$(document).height() }, 1000);
+        $("div#todo_list_container").animate({ 
+            scrollTop: $(document).height()+$(document).height()+$(document).height()+$(document).height()+$(document).height()   // temp. fix
+        }, 1000);
     });
 
     $(document).on("click", "button.done", function(){ todo_item.markAsDone($(this).parent(), true);   });
