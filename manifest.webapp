@@ -2,7 +2,7 @@
   "name": "My ToDo List",
   "description": "A simple todo app to boost your productivity.",
   "launch_path": "/index.html",
-  "version": "1.1",
+  "version": "1.2",
   "developer": {
     "name": "Rahul Desai",
     "url": "http://in.linkedin.com/in/rahuldesai1/"
