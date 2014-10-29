@@ -65,35 +65,35 @@ $(document).ready(function(){
 
     // setup event listeners
     $(document).on("click", "#add", function(e){           // pass position, text with HTML trimmed (to avoid <script> hacks) and star value (boolean)
-        $('#new_todo_item').focus();
-		todo_item.addItem($("#todo_items li").size(), $("#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("#star_container i.fa-star").hasClass('yellow'), true);                            
+        $('textarea#new_todo_item').focus();
+		todo_item.addItem($("#todo_items li").size(), $("textarea#new_todo_item").val().replace(/(<([^>]+)>)/ig,""), $("span#star_container i.fa-star").hasClass('yellow'), true);                            
     });
     
-    $(document).on("click", "#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
-        $("#todo_list_container").animate({ scrollTop: $(document).height()+$(document).height() }, 1000);
+    $(document).on("click", "textarea#new_todo_item",function(){  // scroll to bottom when clicked on input textarea
+        $("div#todo_list_container").animate({ scrollTop: $(document).height()+$(document).height() }, 1000);
     });
 
-    $(document).on("click", ".done",                        function(){ todo_item.markAsDone($(this).parent(), true);   });
-    $(document).on("click", ".item_content",                function(){ todo_item.editItem(this);                       });    
-    $(document).on("click", ".fa-undo",                     function(){ todo_item.undo(todo_item.undoStack);            });    
-    $(document).on("click", ".fa-repeat",                   function(){ todo_item.redo(todo_item.redoStack);            });
-    $(document).on("click", "ul li i.fa-star",              function(){ todo_item.toggleStar(this, true);               });
-    $(document).on("click", "#star_container i.fa-star",    function(){ $(this).toggleClass('yellow');                     });
-	
-	$(document).on("change input propertychange paste keyup", "#new_todo_item", function(){
-        // enable add button only when valid text is entered
-        $("#add").prop('disabled' , ! $("#new_todo_item").val().length );
+    $(document).on("click", "button.done", function(){ todo_item.markAsDone($(this).parent(), true);   });
+    
+    var button_number;
+    $(document).on("mouseenter", "button.done", function(){         // on numbered button hover, change button label to "mark as Done"
+        button_number = $(this).text();    // copy button number
+        $(this).text("Done");
     });
-        
-	var button_number;
-	$(document).on("mouseenter", ".done", function(){ 		// on numbered button hover, change button label to "mark as Done"
-		button_number = $(this).text();    // copy button number
-		$(this).text("Done");
-	});
-	$(document).on("mouseleave", ".done", function(){ 
-		$(this).text(button_number);        // restore button number
-	});
+    $(document).on("mouseleave", "button.done", function(){ 
+        $(this).text(button_number);        // restore button number
+    });
+
+    $(document).on("click", "p.item_content",                   function(){ todo_item.editItem(this);                       });    
+    $(document).on("click", "i.fa-undo",                        function(){ todo_item.undo(todo_item.undoStack);            });    
+    $(document).on("click", "i.fa-repeat",                      function(){ todo_item.redo(todo_item.redoStack);            });
+    $(document).on("click", "ul li i.fa-star",                  function(){ todo_item.toggleStar(this, true);               });
+    $(document).on("click", "span#star_container i.fa-star",    function(){ $(this).toggleClass('yellow');                     });
 	
+	$(document).on("change input propertychange paste keyup", "textarea#new_todo_item", function(){    // enable add button only when valid text is entered
+        $("button#add").prop('disabled' , ! $("#new_todo_item").val().length );
+    });
+    
 		
     // custom functions start here
     
@@ -101,7 +101,7 @@ $(document).ready(function(){
     function checkLocalStorageBrowserSupport(){
         if(!window.localStorage) {
             // notify user
-            $("#info").text("Your browser does not support the HTML5 feature 'localStorage'. Please use an updated browser for this application to work.");
+            $("p#info").text("Your browser does not support the HTML5 feature 'localStorage'. Please use an updated browser for this application to work.");
             // stop
             return false;
         } else
@@ -178,15 +178,15 @@ $(document).ready(function(){
         // if new item is a duplicate of an existing item, notify and do not add it
         if(duplicate){
             
-            var list_element = $('.item_content').filter(function() {
+            var list_element = $('p.item_content').filter(function() {
                 return $.trim( $(this).text() ) === original_item_content;
             }).parent();
             
             // scrollTop to show notification
-            $("#todo_list_container").animate({ scrollTop: 0 }, 250);
+            $("div#todo_list_container").animate({ scrollTop: 0 }, 250);
             
             var info_text = "You already have '"+original_item_content+"' in your list!"
-            $("#info").text(info_text).hide().slideDown(250).delay(2000).slideUp(250);
+            $("p#info").text(info_text).hide().slideDown(250).delay(2000).slideUp(250);
             
             // highlight the original item
             $(list_element).effect("highlight", {}, 4000);
@@ -226,20 +226,20 @@ $(document).ready(function(){
         new_item_content.slideDown(250);
         
         // reset the content of textarea
-        $("#new_todo_item").val("");
+        $("textarea#new_todo_item").val("");
         
         // disable the add button again
-        $("#add").prop('disabled', true);
+        $("button#add").prop('disabled', true);
         
         // unstar
-        $('#star_container i.fa-star').removeClass('yellow');
+        $('span#star_container i.fa-star').removeClass('yellow');
         
         // resize the scrollbar to fit the complete list height
-        $("#todo_list_container").getNiceScroll().resize();
+        $("div#todo_list_container").getNiceScroll().resize();
         
         if(addToUndoStack){
             // scroll the window to the input textarea
-            $("#todo_list_container").animate({ scrollTop: $('#todo_list_container')[0].scrollHeight }, 1000);
+            $("div#todo_list_container").animate({ scrollTop: $('div#todo_list_container')[0].scrollHeight }, 1000);
 
             // add to undo stack
             var todo_item_content = [];            // todo item for undo
@@ -251,13 +251,13 @@ $(document).ready(function(){
             todo_item.undoStack.push(todo_item_content);
             
             // enable undo button if disabled
-            if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
+            if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
         }
     }
     
     /**************************** RENUMBER ITEMS ***********************/
     function renumberItems(){
-        $(".done").each(function(index){
+        $("button.done").each(function(index){
             // change button label according to the item index
             $(this).text(index+1);
         });
@@ -271,7 +271,7 @@ $(document).ready(function(){
             // post-animation     
             
             // remove this item from localStorage
-            var remove_item_text = $(element).find(".item_content").text();
+            var remove_item_text = $(element).find("p.item_content").text();
             
             var todo_items = getLocalStorageData();
             
@@ -293,8 +293,8 @@ $(document).ready(function(){
             todo_item.renumberItems();
             
             // if no todo items in the list, set focus to textarea
-            if($("#todo_items li").length === 0)
-                $("#new_todo_item").focus();
+            if($("ul#todo_items li").length === 0)
+                $("textarea#new_todo_item").focus();
             
             if(addToUndoStack){
                 var todo_item_content = [];            // todo item for undo
@@ -307,7 +307,7 @@ $(document).ready(function(){
                 todo_item.undoStack.push(todo_item_content);
                 
                 // enable undo button if disabled
-                if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
+                if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
             }
             
         });        
@@ -332,7 +332,7 @@ $(document).ready(function(){
             $(element).find('textarea').on("focusout", function(){
                 //console.log('focusing out..');
                 
-                var edited_text = $("#new_data").val();
+                var edited_text = $("textarea#new_data").val();
                 //console.log("out");    
                 
                 // update localStorage and UI only when the new data is different than before and not empty
@@ -359,10 +359,10 @@ $(document).ready(function(){
                     // if new item is a duplicate of an existing item, notify and do not add it
                     if(duplicate){
                         // highlight the original item for 10,000 ms
-                        $( ".item_content:contains('"+edited_text+"')" ).parent().effect("highlight", {}, 10000);
+                        $( "p.item_content:contains('"+edited_text+"')" ).parent().effect("highlight", {}, 10000);
                         
                         // notify the user
-                        $("#info").text("You already have '"+edited_text+"' in your list!").fadeOut(10000);
+                        $("p#info").text("You already have '"+edited_text+"' in your list!").fadeOut(10000);
                         
                         // set focus on textbox again
                         //$("#new_todo_item").focus();
@@ -401,7 +401,7 @@ $(document).ready(function(){
                     todo_item.undoStack.push(todo_item_content);
                     
                     // enable undo button if disabled
-                    if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");                   
+                    if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");                   
                     
                     
                 } else {
@@ -462,7 +462,7 @@ $(document).ready(function(){
             todo_item.undoStack.push(todo_item_content);
             
             // enable undo button if disabled
-            if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
+            if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
             
         }
     }
@@ -490,7 +490,7 @@ $(document).ready(function(){
             case "toggleStar":
 
                 // call toggle star
-                todo_item.toggleStar($("ul li:nth-child("+undo_item["button_number"]+")").find('.fa-star'), false);
+                todo_item.toggleStar($("ul li:nth-child("+undo_item["button_number"]+")").find('i.fa-star'), false);
                 
                 // push to redoStack
                 undo_item["value"] = !undo_item["value"];
@@ -500,7 +500,7 @@ $(document).ready(function(){
             case "edit":
                 
                 // update UI
-                $( ".item_content:contains('"+undo_item["edited_text"]+"')" ).text(undo_item["original_text"]);
+                $( "p.item_content:contains('"+undo_item["edited_text"]+"')" ).text(undo_item["original_text"]);
                 
                 // update localStorage
                 var todo_items = getLocalStorageData();
@@ -528,15 +528,15 @@ $(document).ready(function(){
                 
             case "add":
                 
-                var list_element = $('.item_content').filter(function() {
+                var list_element = $('p.item_content').filter(function() {
                     return $.trim( $(this).text() ) === undo_item["text"];
                 }).parent();
                 
                 todo_item.markAsDone(list_element, false);
                 
                 undo_item["task"] = "done";
-                undo_item["button_number"] = $( ".item_content:contains('"+undo_item["text"]+"')" ).parent().find('button').text();  // .prev() not working
-                undo_item["star"] = $( ".item_content:contains('"+undo_item["text"]+"')" ).parent().find('.star').is(':checked');
+                undo_item["button_number"] = $( "p.item_content:contains('"+undo_item["text"]+"')" ).parent().find('button').text();  // .prev() not working
+                undo_item["star"] = $( "p.item_content:contains('"+undo_item["text"]+"')" ).parent().find('i.fa-star').hasClass('yellow');
                 
                 break;
                 
@@ -558,10 +558,10 @@ $(document).ready(function(){
         todo_item.redoStack.push(undo_item);
         
         // enable redo button
-        if($(".fa-repeat").hasClass("white") === false) $(".fa-repeat").addClass("white");
+        if($("i.fa-repeat").hasClass("white") === false) $("i.fa-repeat").addClass("white");
             
         // disable undo button if stack is empty
-        if($(".fa-undo").hasClass("white")) $(".fa-undo").removeClass("white");
+        if($("i.fa-undo").hasClass("white")) $("i.fa-undo").removeClass("white");
                         
         
     }
@@ -579,7 +579,7 @@ $(document).ready(function(){
             case "toggleStar": 
                 
                 // call toggle star
-                todo_item.toggleStar($("ul li:nth-child("+redo_item["button_number"]+")").find('.fa-star'), false);
+                todo_item.toggleStar($("ul li:nth-child("+redo_item["button_number"]+")").find('i.fa-star'), false);
                 
                 // push to undoStack
                 redo_item["value"] = !redo_item["value"];
@@ -589,7 +589,7 @@ $(document).ready(function(){
             case "edit": 
                 
                 // update UI
-                $( ".item_content:contains('"+redo_item["edited_text"]+"')" ).text(redo_item["original_text"]);
+                $("p.item_content:contains('"+redo_item["edited_text"]+"')").text(redo_item["original_text"]);
                 
                 // update localStorage
                 var todo_items = getLocalStorageData();
@@ -624,7 +624,7 @@ $(document).ready(function(){
                 
             case "add": 
                 
-                var list_element = $('.item_content').filter(function() {
+                var list_element = $('p.item_content').filter(function() {
                     return $.trim( $(this).text() ) === redo_item["text"];
                 }).parent();
                 
@@ -639,10 +639,10 @@ $(document).ready(function(){
         todo_item.undoStack.push(redo_item);
         
         // enable undo button
-        if($(".fa-undo").hasClass("white") === false) $(".fa-undo").addClass("white");
+        if($("i.fa-undo").hasClass("white") === false) $("i.fa-undo").addClass("white");
         
         // disable redo button if no tasks in the stack
-        if($(".fa-repeat").hasClass("white")) $(".fa-repeat").removeClass("white");
+        if($("i.fa-repeat").hasClass("white")) $("i.fa-repeat").removeClass("white");
         
     }
     
