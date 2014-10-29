@@ -1,4 +1,4 @@
-Todo Application
+ToDo
 ================
 
 A simple todo application for boosting productivity. This application includes following features:
