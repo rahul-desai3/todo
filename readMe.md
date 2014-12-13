@@ -47,7 +47,6 @@ License
 
 [MIT] (Open source)
 
-[Online Demo]:http://jsfiddle.net/rdesai/csTS7/292/show
-[MIT]:http://opensource.org/licenses/MIT
-[jQuery NiceScroll]:http://areaaperta.com/nicescroll/
+[Online Demo]:http://jsfiddle.net/rdesai/csTS7/293/show/
+[MIT]:http://opensource.org/licenses/MIT[jQuery NiceScroll]:http://areaaperta.com/nicescroll/
 [jQuery Elastic]:https://code.google.com/p/jquery-elastic/
