@@ -35,8 +35,6 @@ Technologies
 * Javascript
 * jQuery core library v1.11.1
 * jQuery UI library v1.11.1
-* [jQuery Elastic]
-* [jQuery NiceScroll]
 * CSS3
 * HTML5
 
@@ -48,5 +46,4 @@ License
 [MIT] (Open source)
 
 [Online Demo]:http://jsfiddle.net/rdesai/csTS7/293/show/
-[MIT]:http://opensource.org/licenses/MIT[jQuery NiceScroll]:http://areaaperta.com/nicescroll/
-[jQuery Elastic]:https://code.google.com/p/jquery-elastic/
+[MIT]:http://opensource.org/licenses/MIT
